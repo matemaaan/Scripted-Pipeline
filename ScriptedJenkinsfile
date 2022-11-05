@@ -1,0 +1,15 @@
+
+node('linux'){
+    stage('Checkout') {
+        git branch: 'main', credentialsId: 'ab621fcc-c1e4-46da-b189-3374e799c128', url: 'git@github.com:matemaaan/Scripted-Pipeline.git'
+    }
+    stage("Run playbook"){
+        if ( "${prod_run}" == "true" ){
+            sh 'ansible-playbook site.yml -i inventory/prod.yml'
+        }
+        else{
+            sh 'ansible-playbook site.yml -i inventory/prod.yml --check --diff'
+        }
+        
+    }
+}
